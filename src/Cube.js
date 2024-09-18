@@ -49,14 +49,24 @@ class Cube {
         );
     }
 
+    // sides = Object.freeze({
+    //     0: { name: "up", rightSide: "right", leftSide: "left", upSide: "back", downSide: "front" },
+    //     1: { name: "down", rightSide: "right", leftSide: "left", upSide: "front", downSide: "back"},
+    //     2: { name: "left", rightSide: "front", leftSide: "back", upSide: "up", downSide: "down"},
+    //     3: { name: "back", rightSide: "left", leftSide: "right", upSide: "up", downSide: "down"},
+    //     4: { name: "front", rightSide: "right", leftSide: "left", upSide: "up", downSide: "down"},
+    //     5: { name: "right", rightSide: "back", leftSide: "front", upSide: "up", downSide: "down"},
+    //   });  
+    
     sides = Object.freeze({
-        0: "up",
-        1: "down",
-        2: "left",
-        3: "back",
-        4: "front",
-        5: "right"
+        "up": { rightSide: "right", leftSide: "left", upSide: "back", downSide: "front" },
+        "down": { rightSide: "right", leftSide: "left", upSide: "front", downSide: "back"},
+        "left": { rightSide: "front", leftSide: "back", upSide: "up", downSide: "down"},
+        "back": { rightSide: "left", leftSide: "right", upSide: "up", downSide: "down"},
+        "front": { rightSide: "right", leftSide: "left", upSide: "up", downSide: "down"},
+        "right": { rightSide: "back", leftSide: "front", upSide: "up", downSide: "down"},
       });    
+
 
     /**
      * Cria uma face para o cubo com uma cor
@@ -150,7 +160,8 @@ class Cube {
         const logger = require("./util/logger");
         const Color = require("./Color");
         
-        logger.info(side.toUpperCase());
+        logger.info(JSON.stringify(side.toString()));
+        // logger.info(side.toUpperCase());
 
         for ( let i = 0; i < 3; i++) {
             for (let j = 0 ; j < 3 ; j++) {
@@ -169,8 +180,34 @@ class Cube {
 
     showCube() {
         for (let i = 0; i < 6; i++)
-            this.showSide(this.sides[i]);
+            this.showSide(this.getPropertyByIndex(this.sides, i));
     }
+    
+    getPropertyByIndex(obj, index) {
+        const keys = Object.keys(obj);
+        if (index >= 0 && index < keys.length) {
+          return keys[index];
+        } 
+      }
+
+
+    rightRotate(index, sideName) {
+        
+    }
+
+    leftRotate(index) {
+        
+    }
+
+    upRotate(index) {
+
+    }
+
+    downRotate(index) {
+        
+    }
+
+
 }
 
 module.exports = Cube;

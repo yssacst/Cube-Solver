@@ -28,12 +28,13 @@ const crazyCube = new Cube()
 // originalCube.showSide("left");
 // originalCube.showSide("right");
 
-// crazyCube.showSide("front");
+crazyCube.showSide("front");
 // crazyCube.showSide("back");
 // crazyCube.showSide("up");
 // crazyCube.showSide("down");
 // crazyCube.showSide("left");
-// crazyCube.showSide("right");
+crazyCube.showSide("right");
 
-crazyCube.showCube();
-// crazyCube.showSide("front");
+crazyCube.rightRotate(0,"front")
+
+// crazyCube.showCube();
