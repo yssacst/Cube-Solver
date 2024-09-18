@@ -1,18 +1,19 @@
-const Cubo = require("./Cubo");
+const Cube = require("./Cube");
+const logger = require("./util/logger")
 
-const cuboOriginal = new Cubo()
-    .setCima("azul")
-    .setBaixo("verde")
-    .setDireita("branco")
-    .setEsquerda("laranja")
-    .setFrente("amarelo")
-    .setTras("vermelho")
+const originalCube = new Cube()
+    .setUp("blue")
+    .setDown("green")
+    .setRight("white")
+    .setLeft("orange")
+    .setFront("yellow")
+    .setBack("red")
     .builder();
 
-const cuboBaguncado = new Cubo()
-.randomFaceColors();
+const crazyCube = new Cube()
+    .randomSideColors();
 
-console.log("Cubo Original:", JSON.stringify(cuboOriginal, null, 2));
-console.log("Cubo Baguncado:", JSON.stringify(cuboBaguncado, null, 2));
+logger.info("Original Cube -> ", { params: JSON.stringify(originalCube) });
+logger.info("Crazy Cube-> ", { params: JSON.stringify(crazyCube) });
 
-cuboBaguncado.normalizeFace(cuboOriginal, cuboBaguncado, "azul")
+crazyCube.validateSide(originalCube, crazyCube);
