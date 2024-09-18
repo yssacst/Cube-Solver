@@ -145,6 +145,32 @@ class Cube {
             }
         }
     }
+
+    showSide(side) {
+        const logger = require("./util/logger");
+        const Color = require("./Color");
+        
+        logger.info(side.toUpperCase());
+
+        for ( let i = 0; i < 3; i++) {
+            for (let j = 0 ; j < 3 ; j++) {
+                logger.infoWithOutBreakLine('[=]',
+                    { color: new Color()
+                        .getColorCode(
+                            this[side][i][j].colorName
+                        )
+                    }
+                );
+            }
+            logger.info("");
+        }
+        logger.info("");
+    }
+
+    showCube() {
+        for (let i = 0; i < 6; i++)
+            this.showSide(this.sides[i]);
+    }
 }
 
 module.exports = Cube;
