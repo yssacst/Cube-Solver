@@ -8,6 +8,21 @@ class Color {
         return this.colorsCode[colorName];
     }
 
+    getRandomColor() {
+        let index = Math.floor(Math.random() * (5 - 0 + 1)) + 0;
+        let color = this.getPropertyByIndex(this.colorsCode, index);
+        return {
+            colorName: color
+        }
+    }
+    
+    getPropertyByIndex(obj, index) {
+        const keys = Object.keys(obj);
+        if (index >= 0 && index < keys.length) {
+            return keys[index];
+        }
+    }
+
     colorsCode =  Object.freeze({
         "red": "\x1b[31m",
         "green": "\x1b[32m",

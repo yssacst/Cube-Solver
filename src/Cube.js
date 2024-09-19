@@ -49,25 +49,15 @@ class Cube {
         );
     }
 
-    // sides = Object.freeze({
-    //     0: { name: "up", rightSide: "right", leftSide: "left", upSide: "back", downSide: "front" },
-    //     1: { name: "down", rightSide: "right", leftSide: "left", upSide: "front", downSide: "back"},
-    //     2: { name: "left", rightSide: "front", leftSide: "back", upSide: "up", downSide: "down"},
-    //     3: { name: "back", rightSide: "left", leftSide: "right", upSide: "up", downSide: "down"},
-    //     4: { name: "front", rightSide: "right", leftSide: "left", upSide: "up", downSide: "down"},
-    //     5: { name: "right", rightSide: "back", leftSide: "front", upSide: "up", downSide: "down"},
-    //   });  
-    
     sides = Object.freeze({
-        "up": { rightSide: "right", leftSide: "left", upSide: "back", downSide: "front" },
-        "down": { rightSide: "right", leftSide: "left", upSide: "front", downSide: "back"},
-        "left": { rightSide: "front", leftSide: "back", upSide: "up", downSide: "down"},
-        "back": { rightSide: "left", leftSide: "right", upSide: "up", downSide: "down"},
-        "front": { rightSide: "right", leftSide: "left", upSide: "up", downSide: "down"},
-        "right": { rightSide: "back", leftSide: "front", upSide: "up", downSide: "down"},
-      });    
-
-
+        0: "front",
+        1: "down",
+        2: "left",
+        3: "back",
+        4: "up",
+        5: "right"
+      });  
+    
     /**
      * Cria uma face para o cubo com uma cor
      * @param {String} colorName 
@@ -87,39 +77,18 @@ class Cube {
 
     randomSideColors() {
         const Color = require("./Color");
-        
-        this.down = [
-            [ new Color([[0],[0]], "green"), new Color([[0],[1]], "orange"), new Color([[0],[1]], "blue") ],
-            [ new Color([[1],[0]], "yellow"), new Color([[1],[1]], "green"), new Color([[1],[1]], "green") ],
-            [ new Color([[2],[0]], "red"), new Color([[2],[1]], "blue"), new Color([[2],[1]], "orange") ]
-        ];
+        const randomCube = new Cube();
+        for (let i = 0 ; i < 6; i++) {
+            let sideName = this.sides[i];
+            this[sideName] = [[],[],[]];
 
-        this.up = [
-            [ new Color([[0],[0]], "red"), new Color([[0],[1]], "orange"), new Color([[0],[1]], "blue") ],
-            [ new Color([[1],[0]], "yellow"), new Color([[1],[1]], "green"), new Color([[1],[1]], "green") ],
-            [ new Color([[2],[0]], "green"), new Color([[2],[1]], "blue"), new Color([[2],[1]], "orange") ]
-        ];
-        this.front = [
-            [ new Color([[0],[0]], "green"), new Color([[0],[1]], "orange"), new Color([[0],[1]], "blue") ],
-            [ new Color([[1],[0]], "yellow"), new Color([[1],[1]], "green"), new Color([[1],[1]], "green") ],
-            [ new Color([[2],[0]], "red"), new Color([[2],[1]], "blue"), new Color([[2],[1]], "orange") ]
-        ];
-        this.back = [
-            [ new Color([[0],[0]], "green"), new Color([[0],[1]], "orange"), new Color([[0],[1]], "blue") ],
-            [ new Color([[1],[0]], "yellow"), new Color([[1],[1]], "green"), new Color([[1],[1]], "green") ],
-            [ new Color([[2],[0]], "red"), new Color([[2],[1]], "blue"), new Color([[2],[1]], "orange") ]
-        ];
-        this.left = [
-            [ new Color([[0],[0]], "green"), new Color([[0],[1]], "orange"), new Color([[0],[1]], "blue") ],
-            [ new Color([[1],[0]], "yellow"), new Color([[1],[1]], "green"), new Color([[1],[1]], "green") ],
-            [ new Color([[2],[0]], "red"), new Color([[2],[1]], "blue"), new Color([[2],[1]], "orange") ]
-        ];
-        
-        this.right = [
-            [ new Color([[0],[0]], "green"), new Color([[0],[1]], "orange"), new Color([[0],[1]], "blue") ],
-            [ new Color([[1],[0]], "yellow"), new Color([[1],[1]], "green"), new Color([[1],[1]], "green") ],
-            [ new Color([[2],[0]], "red"), new Color([[2],[1]], "blue"), new Color([[2],[1]], "orange") ]
-        ];
+            for (let j = 0; j < 3; j++) {
+                for (let k = 0; k < 3; k++){
+                    this[sideName][j][k] = new Color().getRandomColor();
+                }
+            }
+        }
+
         
         return new Cube(
             this.up,
@@ -160,8 +129,7 @@ class Cube {
         const logger = require("./util/logger");
         const Color = require("./Color");
         
-        logger.info(JSON.stringify(side.toString()));
-        // logger.info(side.toUpperCase());
+        logger.info(side.toUpperCase());
 
         for ( let i = 0; i < 3; i++) {
             for (let j = 0 ; j < 3 ; j++) {
@@ -180,33 +148,68 @@ class Cube {
 
     showCube() {
         for (let i = 0; i < 6; i++)
-            this.showSide(this.getPropertyByIndex(this.sides, i));
+            this.showSide(this.sides[i]);
     }
     
-    getPropertyByIndex(obj, index) {
-        const keys = Object.keys(obj);
-        if (index >= 0 && index < keys.length) {
-          return keys[index];
-        } 
-      }
+    rightRotate(index) {
+        const logger = require("./util/logger");
+        logger.info("rightRotate");
 
+        for(let i = 0;  i < 3; i++) {
+            let aux = this.front[index][i];
+            this.front[index][i] = this.left[index][i];
+            this.left[index][i] = this.back[index][i];
+            this.back[index][i] = this.right[index][i];
+            this.right[index][i] = aux;
 
-    rightRotate(index, sideName) {
-        
+            // TODO ROTACIONAR UP E DOWN
+        }
     }
 
     leftRotate(index) {
+        const logger = require("./util/logger");
+        logger.info("leftRotate");
+
+        for(let i = 0;  i < 3; i++) {
+            let aux = this.front[index][i];
+            this.front[index][i] = this.right[index][i];
+            this.right[index][i] = this.back[index][i];
+            this.back[index][i] = this.left[index][i];
+            this.left[index][i] = aux;
         
+            // TODO ROTACIONAR UP E DOWN
+        }
     }
 
     upRotate(index) {
+        const logger = require("./util/logger");
+        logger.info("upRotate");
 
+        for(let i = 0;  i < 3; i++) {
+            let aux = this.front[i][index];
+            this.front[i][index] = this.down[i][index];
+            this.down[i][index] = this.back[i][index];
+            this.back[i][index] = this.up[i][index];
+            this.up[i][index] = aux;
+        
+            // TODO ROTACIONAR LEFT E RIGHT
+        }
     }
 
     downRotate(index) {
-        
-    }
+        const logger = require("./util/logger");
+        logger.info("downRotate");
 
+        for(let i = 0;  i < 3; i++) {
+            let aux = this.front[i][index];
+            this.front[i][index] = this.up[i][index];
+            this.up[i][index] = this.back[i][index];
+            this.back[i][index] = this.down[i][index];
+            this.down[i][index] = aux;
+        
+            // TODO ROTACIONAR LEFT E RIGHT
+        }
+    }
 
 }
 

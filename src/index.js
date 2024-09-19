@@ -28,13 +28,30 @@ const crazyCube = new Cube()
 // originalCube.showSide("left");
 // originalCube.showSide("right");
 
-crazyCube.showSide("front");
 // crazyCube.showSide("back");
 // crazyCube.showSide("up");
 // crazyCube.showSide("down");
+// crazyCube.showSide("front");
 // crazyCube.showSide("left");
-crazyCube.showSide("right");
+// crazyCube.showSide("right");
 
-crazyCube.rightRotate(0,"front")
+// crazyCube.rightRotate(0, "front")
+
+// crazyCube.showSide("front");
+// crazyCube.showSide("left");
+// crazyCube.showSide("right");
 
 // crazyCube.showCube();
+
+logger.info("----------------original cube----------------");
+originalCube.showCube();
+logger.info("--------------------------------------------");
+
+// originalCube.rightRotate(1, "front")
+// originalCube.leftRotate(1, "front")
+originalCube.upRotate(1, "front")
+// originalCube.downRotate(1, "front")
+
+logger.info("----------------modified cube----------------");
+originalCube.showCube();
+logger.info("--------------------------------------------");
