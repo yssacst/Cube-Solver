@@ -42,8 +42,8 @@ const crazyCube = new Cube()
 // crazyCube.showCube();
 
 // logger.info("----------------original cube----------------");
-crazyCube.showCube();
-// crazyCube.showSide("left");
+// crazyCube.showCube();
+crazyCube.showSide("right");
 
 // logger.info("--------------------------------------------");
 
@@ -53,6 +53,6 @@ crazyCube.action("R");
 // originalCube.downRotate(1, "front")
 
 // logger.info("----------------modified cube----------------");
-crazyCube.showCube();
-// crazyCube.showSide("left");
+// crazyCube.showCube();
+crazyCube.showSide("right");
 // logger.info("--------------------------------------------");

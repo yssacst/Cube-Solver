@@ -78,6 +78,7 @@ class Cube {
     randomSideColors() {
         const Color = require("./Color");
         const randomCube = new Cube();
+
         for (let i = 0 ; i < 6; i++) {
             let sideName = this.sides[i];
             this[sideName] = [[],[],[]];
@@ -160,11 +161,11 @@ class Cube {
         }
         
         if(index == 0) {
-            this.sideClockwiseRotate("L'");
+            this.left = this.sideCounterClockwiseRotate(this.left);
         }
 
         if(index == 2) {
-            this.sideClockwiseRotate("R");
+            this.right = this.sideClockwiseRotate(this.right);
         }
     }
 
@@ -179,70 +180,31 @@ class Cube {
         }
         
         if(index == 0) {
-            this.sideClockwiseRotate("L");
+            this.left = this.sideClockwiseRotate(this.left);
         }
-
+        
         if(index == 2) {
-            this.sideClockwiseRotate("R'");
+            this.right = this.sideCounterClockwiseRotate(this.right);
         }
     }
 
     sideClockwiseRotate(side) {
         let auxSide = [[],[],[]];
-        switch(side) {
-            case "R":
-                for(let i = 0; i < 3; i++) {
-                    let count = 2;
-                    for(let j = 0; j < 3; j++) {
-                        auxSide[i][j] = this.right[count][i];
-                        count--;
-                    } 
-                }
-                
-                this.right = auxSide;
-                break;
-            case "L":
-            for(let i = 0; i < 3; i++) {
-                let count = 2;
-                for(let j = 0; j < 3; j++) {
-                    auxSide[i][j] = this.left[count][i];
-                    count--;
-                } 
-            }
-            
-            this.left = auxSide;
-            break;
-            case "U":
-                for(let i = 0; i < 3; i++) {
-                    let count = 2;
-                    for(let j = 0; j < 3; j++) {
-                        auxSide[i][j] = this.up[count][i];
-                        count--;
-                    } 
-                }
-                
-                this.up = auxSide;
-                break;
-            case "D":
-            for(let i = 0; i < 3; i++) {
-                let count = 2;
-                for(let j = 0; j < 3; j++) {
-                    auxSide[i][j] = this.down[count][i];
-                    count--;
-                } 
-            }
-            
-            this.down = auxSide;
-            break;
-            
+        
+        for(let i = 0; i < 3; i++) {
+            let count = 2;
+            for(let j = 0; j < 3; j++) {
+                auxSide[i][j] = side[count][i];
+                count--;
+            } 
         }
+        
+        return auxSide;
     }
 
     sideCounterClockwiseRotate(side) {
         // TODO
     }
-
-
 
     /**
      * @param {String} action
