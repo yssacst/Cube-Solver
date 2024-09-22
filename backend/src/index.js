@@ -4,10 +4,10 @@ const logger = require("./util/logger")
 const originalCube = new Cube()
     .setUp("blue")
     .setDown("green")
-    .setRight("white")
+    .setRight("red")
     .setLeft("orange")
     .setFront("yellow")
-    .setBack("red")
+    .setBack("write")
     .builder();
 
 const crazyCube = new Cube()
@@ -15,8 +15,6 @@ const crazyCube = new Cube()
 
 // logger.info("Original Cube -> ", { params: JSON.stringify(originalCube) });
 // logger.info("Crazy Cube-> ", { params: JSON.stringify(crazyCube) });
-
-// crazyCube.validateSide(originalCube, crazyCube);
 
 // logger.info("Original Cube -> ", { params: JSON.stringify(originalCube) });
 // logger.info("Crazy Cube-> ", { params: JSON.stringify(crazyCube) });
@@ -43,15 +41,18 @@ const crazyCube = new Cube()
 
 // crazyCube.showCube();
 
-logger.info("----------------original cube----------------");
-originalCube.showCube();
-logger.info("--------------------------------------------");
+// logger.info("----------------original cube----------------");
+crazyCube.showCube();
+// crazyCube.showSide("left");
+
+// logger.info("--------------------------------------------");
 
 // originalCube.rightRotate(1, "front")
 // originalCube.leftRotate(1, "front")
-originalCube.upRotate(1, "front")
+crazyCube.action("R");
 // originalCube.downRotate(1, "front")
 
-logger.info("----------------modified cube----------------");
-originalCube.showCube();
-logger.info("--------------------------------------------");
+// logger.info("----------------modified cube----------------");
+crazyCube.showCube();
+// crazyCube.showSide("left");
+// logger.info("--------------------------------------------");

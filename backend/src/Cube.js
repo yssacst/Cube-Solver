@@ -100,31 +100,6 @@ class Cube {
         );
     }
 
-    validateSide(cube, side) {
-        const logger = require("./util/logger");
-
-        for (let s = 0 ; s < 6; s++) {
-            let sideName = this.sides[s];
-            
-            console.log(`Side ${sideName}`);
-            
-            for ( let i = 0; i < 3; i++) {
-                for (let j = 0 ; j < 3 ; j++) {
-                    if (side[sideName][i][j].colorName == cube[sideName][i][j].colorName) {
-                        logger.info(`Right position! ${JSON.stringify(side[sideName][i][j].index)} ${side[sideName][i][j].colorName}`,
-                            { color: "\x1b[32m" }
-                        );
-                    } else {
-                        logger.info(`Wrong position! ${JSON.stringify(side[sideName][i][j].index)} ${side[sideName][i][j].colorName}`,
-                            { color: "\x1b[31m" }
-                        );
-                    }
-
-                }
-            }
-        }
-    }
-
     showSide(side) {
         const logger = require("./util/logger");
         const Color = require("./Color");
@@ -152,9 +127,6 @@ class Cube {
     }
     
     rightRotate(index) {
-        const logger = require("./util/logger");
-        logger.info("rightRotate");
-
         for(let i = 0;  i < 3; i++) {
             let aux = this.front[index][i];
             this.front[index][i] = this.left[index][i];
@@ -167,9 +139,6 @@ class Cube {
     }
 
     leftRotate(index) {
-        const logger = require("./util/logger");
-        logger.info("leftRotate");
-
         for(let i = 0;  i < 3; i++) {
             let aux = this.front[index][i];
             this.front[index][i] = this.right[index][i];
@@ -182,24 +151,24 @@ class Cube {
     }
 
     upRotate(index) {
-        const logger = require("./util/logger");
-        logger.info("upRotate");
-
         for(let i = 0;  i < 3; i++) {
             let aux = this.front[i][index];
             this.front[i][index] = this.down[i][index];
             this.down[i][index] = this.back[i][index];
             this.back[i][index] = this.up[i][index];
-            this.up[i][index] = aux;
+            this.up[i][index] = aux;        
+        }
         
-            // TODO ROTACIONAR LEFT E RIGHT
+        if(index == 0) {
+            this.sideClockwiseRotate("L'");
+        }
+
+        if(index == 2) {
+            this.sideClockwiseRotate("R");
         }
     }
 
     downRotate(index) {
-        const logger = require("./util/logger");
-        logger.info("downRotate");
-
         for(let i = 0;  i < 3; i++) {
             let aux = this.front[i][index];
             this.front[i][index] = this.up[i][index];
@@ -207,8 +176,143 @@ class Cube {
             this.back[i][index] = this.down[i][index];
             this.down[i][index] = aux;
         
-            // TODO ROTACIONAR LEFT E RIGHT
         }
+        
+        if(index == 0) {
+            this.sideClockwiseRotate("L");
+        }
+
+        if(index == 2) {
+            this.sideClockwiseRotate("R'");
+        }
+    }
+
+    sideClockwiseRotate(side) {
+        let auxSide = [[],[],[]];
+        switch(side) {
+            case "R":
+                for(let i = 0; i < 3; i++) {
+                    let count = 2;
+                    for(let j = 0; j < 3; j++) {
+                        auxSide[i][j] = this.right[count][i];
+                        count--;
+                    } 
+                }
+                
+                this.right = auxSide;
+                break;
+            case "L":
+            for(let i = 0; i < 3; i++) {
+                let count = 2;
+                for(let j = 0; j < 3; j++) {
+                    auxSide[i][j] = this.left[count][i];
+                    count--;
+                } 
+            }
+            
+            this.left = auxSide;
+            break;
+            case "U":
+                for(let i = 0; i < 3; i++) {
+                    let count = 2;
+                    for(let j = 0; j < 3; j++) {
+                        auxSide[i][j] = this.up[count][i];
+                        count--;
+                    } 
+                }
+                
+                this.up = auxSide;
+                break;
+            case "D":
+            for(let i = 0; i < 3; i++) {
+                let count = 2;
+                for(let j = 0; j < 3; j++) {
+                    auxSide[i][j] = this.down[count][i];
+                    count--;
+                } 
+            }
+            
+            this.down = auxSide;
+            break;
+            
+        }
+    }
+
+    sideCounterClockwiseRotate(side) {
+        // TODO
+    }
+
+
+
+    /**
+     * @param {String} action
+     * Valid options are:
+     * R - Right clockwise;
+     * R’- Right counterclockwise;
+     * F - Front clockwise ;
+     * F’- Front counterclockwise ;
+     * L - Left clockwise;
+     * L’- Left counterclockwise;
+     * B - Back clockwise;
+     * B’- Back counterclockwise;
+     * U - Up clockwise;
+     * U’- Up counterclockwise;
+     * D - Down clockwise;
+     * D’- Down counterclockwise;
+     */
+    action(action) {
+        const logger = require("./util/logger");
+        switch(action) {
+            case "R":
+                logger.info(action);
+                this.upRotate(2);
+                break;
+            case "R'":
+                logger.info(action);
+                this.downRotate(2);
+                break;
+            case "L":
+                logger.info(action);
+                this.downRotate(0);
+                break;
+            case "L'":
+                logger.info(action);
+                this.upRotate(0);
+                break;
+            case "U":
+                logger.info(action);
+                this.leftRotate(0);
+                break;
+            case "U'":
+                logger.info(action);
+                this.rightRotate(0);
+                break;
+            case "B":
+                logger.info(action);
+                // TODO
+                break;
+            case "B'":
+                logger.info(action);
+                // TODO
+                break;
+            case "D":
+                logger.info(action);
+                this.rightRotate(2);
+                break;
+            case "D'":
+                logger.info(action);
+                this.leftRotate(2);
+                break;
+            case "F":
+                logger.info(action);
+                // TODO
+                break;
+            case "F'":
+                logger.info(action);
+                // TODO
+                break;
+        }
+
     }
 
 }
